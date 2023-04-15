@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Newton-Raphson</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/db6f61cc59.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      
+    <link rel="stylesheet" href="styles.css">
+
+
+    <link rel="shortcut icon" href="img/logo.svg" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <img src="img/logo.svg" alt="Logo BoBo">
+    </header>
+    <h1>Método de Netwon Raphson</h1>
+    
+    <form class="mx-5 px-5" id="form">
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label for="input-equation" class="form-label">Función</label>
+                <input type="text" class="form-control input-equation" id="input-equation" required>
+                <small id="validation-equation" class="text-danger"></small>
+            </div>
+
+            <div class="col-2">
+                <label for="value-x-input" class="form-label">Valor de x0</label>
+                <input type="text" inputmode="numeric" maxlength="10" class="form-control input-value-x" id="value-x-input" value="1" required>
+                <small id="validation-value-x" class="text-danger"></small>
+            </div>  
+            
+            <div class="col-2">
+                <label for="tolerance-input" class="form-label">Tolerancia</label>
+                <input type="text" class="form-control input-tolerance" maxlength="10" id="tolerance-input" value="0.0001" required>
+                <small id="validation-tolerance" class="text-danger"></small>
+            </div>
+
+            <div class=" col-4">
+                <label for="round-input" class="form-label">Numero de decimales: <span id="round-value">4</span></label>
+                <input type="range" class="form-range input-round" value="4" min="1" max="10" step="1" id="round-input">
+            </div>
+        </div>
+        <div class="row mb-3 mt-5">
+
+            <div class="col-4 align-items-center d-flex justify-content-center d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Calcular</button>
+            </div>
+        </div>
+        
+    </form>
+
+
+    <section class="information my-5 mx-5 px-5">
+        <h2>Valores Necesarios</h2>
+
+        <div class="content-information d-flex justify-content-between align-items-center">
+            <div class="div-card-info equation">
+                <h4>Función</h4>
+                <p>Es una regla matemática o ecuación que toma un número como entrada y lo transforma en otro número como salida. Es como una máquina que sigue ciertas reglas para convertir un número en otro número. Ejemplo: x^3-x-3</p>
+            </div>
+
+            <div class="div-card-info value-x">
+                <h4>Valor de x0</h4>
+                <p>Es un número que usamos como punto de inicio en el método de Newton Raphson para encontrar la solución de un problema matemático. Es como una suposición inicial que nos ayuda a comenzar nuestra búsqueda de la respuesta.</p>
+            </div>
+
+            <div class="div-card-info tolerance">
+                <h4>Tolerancia</h4>
+                <p>Es una medida de cuán cerca queremos estar de la respuesta correcta. Es como una regla que nos dice cuánto error estamos dispuestos a aceptar en nuestra aproximación. Menor tolerancia es mas precisionan en el resultado.</p>
+            </div>
+
+            <div class="div-card-info round">
+                <h4>Numero de decimales</h4>
+                <p>Es la cantidad de números que queremos después del punto decimal en nuestra respuesta aproximada. Por ejemplo, si establecemos 2 como número de decimales, significa que queremos dos números después del punto decimal.</p>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="section-results m-5 px-5 px-5">
+        <h2>Resultado</h2>
+        
+        <div class="content-result">
+            <div class="result-empty active">
+                <h5>No has realizado operaciones que pueda mostrar</h5>
+            </div>
+
+            <div class="result-loading">
+                <div class="loader">Loading...</div>
+            </div>
+
+            <div class="row div-results p-4 d-flex justify-content-between h-100">
+                <div class="col-6">
+                    <h4 class="span-x">X: <span id="span-x">$$ $$</span></h4>
+                    <div class="row">
+                        <div class="col-6 my-3">
+                            <p class="text-white text-aling-start">Función</p>
+                            <h5 class="span-function" id="span-function"></h5>
+                        </div>
+                        <div class="col-6 my-3">
+                            <p class="text-white text-aling-start">Derivada</p>
+                            <h5 class="span-derivative" id="span-derivative"></h5>
+                        </div>
+        
+                    </div>
+        
+
+                    <div class="content-table">
+                        <table class="table table-bordered border-info">
+                            <thead>
+                              <tr>
+                                <th scope="col">Paso</th>
+                                <th scope="col">x</th>
+                                <th scope="col">F(X)</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+                <div class="col-5 h-100">
+                    <div class="grafic" id="grafic"></div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section class="cards-extra m-5 px-5 px-5 d-flex justify-content-between align-items-center">
+        <div class="development col-5 p-4">
+            <h6>Desarrollo</h6>
+            <p>Aplicación desarrollada  para la materia de Matematicas  para Ingenieria II con el Tema “Metodos Numericos - Método de Newton Rapshon”</p>
+            <p>Integrantes:</p>
+            <p><b>Enrique Ramos Regente    -    Diseñador</b></p>
+            <p><b>Juan Daniel Espíndola Pérez    -   Desarrollador</b></p>
+            <p><b>Ricardo Lara Arenas    -    Algoritimo</b></p>
+        </div>
+        <div class="limits col-5 p-4">
+            <h6>Limitaciones</h6>
+            <p>Esta aplicación no es adecuada para aplicaciones profesionales o críticas, ya que el método de Newton-Raphson puede requerir muchos recursos computacionales y la precisión de los resultados puede verse afectada debido a limitaciones y aproximaciones en las librerías externas utilizadas. Se recomienda utilizar nuestra aplicación solo como una herramienta de referencia rápida y con propósitos educativos o de aproximación. Para obtener resultados altamente precisos, se recomienda consultar métodos y herramientas más especializadas y profesionales.</p>
+        </div>
+    </section>
+
+    <div class="modal success fade" id="modal-msg" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+            <img src="img/check.svg" alt="Success">
+              <p>He encontrado el valor de x</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal error fade" id="modal-msg-error" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+            <img src="img/warn.svg" alt="Warning">
+              <p class="text-center">No me es posible resolver la función que has ingreso, por favor intente verifique si es correcta o ingrese una nueva función</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-warning" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+    <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
+
+    <script src="main.js"></script>
+
+</body>
+</html>
