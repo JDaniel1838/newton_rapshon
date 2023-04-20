@@ -21,10 +21,6 @@ $loadingResults = d.querySelector(".result-loading"),
 $Modal = new bootstrap.Modal(document.getElementById('modal-msg')),
 $ModalError = new bootstrap.Modal(document.getElementById('modal-msg-error'));
 
-
-
-
-
 /* ------------------VALIDACIONES---------------------- */
 
 const toleranciaValida = (tolerancia) => {
@@ -183,7 +179,7 @@ const Algoritmo = (exprf, xf, roundf, tolerancef) => {
         x = x - f / fd;
 
         iteration++;
-        //console.log(`x${iteration}     x: ${math.round(x, round)}      f(x): ${math.round(f,round + 1)}`);
+        console.log(`x${iteration}     x: ${math.round(x, round)}      f(x): ${math.round(f,round + 1)}`);
 
         /* HTML para mostrar resultados */
         const tr = d.createElement('tr'),
@@ -267,28 +263,38 @@ $form.addEventListener("submit", (e) => {
   $divCapaVacia.classList.remove("active");
   e.preventDefault();
   if (validarDatos()) {
-    $loadingResults.classList.add("active");
-    //Llamar al algoritmo
-    const exprf = $EquationInput.value;
-    const xf = Number($x0value.value);
-    const roundf = Number($rangeInput.value);
-    const tolerancef = Number($torelanceInput.value);
+    try {
+      $loadingResults.classList.add("active");
+      //Llamar al algoritmo
+      const exprf = $EquationInput.value;
+      const xf = Number($x0value.value);
+      const roundf = Number($rangeInput.value);
+      const tolerancef = Number($torelanceInput.value);
 
+      console.log("");
+      console.log("------------------------------------------------------------");
+      console.log("Aplicación desarrollada  para la materia de Matematicas  para Ingenieria II con el Tema 'Metodos Numericos - Método de Newton Rapshon'");
+      console.log("INTEGRANTES:");
+      console.log("Enrique Ramos Regente - Diseñador");
+      console.log("Juan Daniel Espíndola Pérez - Desarrollador");
+      console.log("Ricardo Lara Arenas - Algoritimo");
+      console.log("------------------------------------------------------------");
+      console.log("");
 
-
-    console.log("");
-    console.log("------------------------------------------------------------");
-    console.log("Aplicación desarrollada  para la materia de Matematicas  para Ingenieria II con el Tema 'Metodos Numericos - Método de Newton Rapshon'");
-    console.log("INTEGRANTES:");
-    console.log("Enrique Ramos Regente - Diseñador");
-    console.log("Juan Daniel Espíndola Pérez - Desarrollador");
-    console.log("Ricardo Lara Arenas - Algoritimo");
-    console.log("------------------------------------------------------------");
-    console.log("");
-
-
-    Algoritmo(exprf, xf, roundf, tolerancef);
-    dibujarGrafica(exprf);
-    $loadingResults.classList.remove("active");
+      Algoritmo(exprf, xf, roundf, tolerancef);
+      dibujarGrafica(exprf);
+      $loadingResults.classList.remove("active");
+    } catch (error) {
+      $ModalError.show();
+      console.log("");
+      console.log("------------------------------------------------------------");
+      console.log("-------------ERRROR EN EL ALGORITMO--------------");
+      console.log("Lo siento, no puedo resolver la función que has ingresado. Por favor, verifica si la función es correcta y asegúrate de que sea una ecuación algebraica no lineal con solo la variable x.");
+      console.log("------------------------------------------------------------");
+      console.log("");
+      $divCapaVacia.classList.add("active");
+      $loadingResults.classList.remove("active");
+    }
+    
   }
 });

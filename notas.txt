@@ -1,0 +1,22 @@
+El método de Newton-Raphson no se utiliza para resolver ecuaciones diferenciales,
+sino que es un método numérico para encontrar aproximaciones sucesivas de las raíces
+de una función, es decir, encontrar los valores de x que hacen que una función dada
+sea igual a cero.
+
+El método de Newton-Raphson se utiliza para encontrar raíces de ecuaciones algebraicas
+o trascendentales, no para resolver ecuaciones diferenciales. Específicamente, se 
+puede usar para encontrar las soluciones de una ecuación del tipo f(x) = 0, donde f(x)
+es una función dada.
+
+El método de Newton-Raphson utiliza la derivada de la función f(x) para calcular las 
+aproximaciones sucesivas de la raíz, mediante la fórmula:
+x1 = x0 - f(x0)/f'(x0)
+
+Donde x0 es un valor inicial aproximado de la raíz, f(x0) es el valor de la función 
+en x0, y f'(x0) es la derivada de la función en x0. Este proceso se repite iterativamente
+hasta que se alcance una aproximación deseada de la raíz.
+
+Para resolver ecuaciones diferenciales, se utilizan otros métodos numéricos, como el 
+método de Euler, el método de Runge-Kutta, o métodos más avanzados como el método de 
+elementos finitos o el método de diferencias finitas, dependiendo del tipo de ecuación
+diferencial y las condiciones iniciales o de contorno específicas del problema.
